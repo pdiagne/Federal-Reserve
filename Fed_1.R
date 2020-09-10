@@ -12,7 +12,7 @@ library(stringr)
 library(rapportools)
 #remove.packages("")
 
-dir <- "...\\Data\\"
+dir <- ""
 setwd(dir)
   
 # Load and combine data
@@ -105,10 +105,10 @@ for (f in 1:length(files)) {
     M[to,from] <- -1
   }
   
-  pp <- plotmat(M, name = c(colnames(d_n)),
-                lwd = 1, box.lwd = 2, cex.txt = 0.8, 
-                box.size = 0.05, box.type = "circle", box.prop = 0.3,
-                main = file_names[f])
+  # pp <- plotmat(M, name = c(colnames(d_n)),
+  #               lwd = 1, box.lwd = 2, cex.txt = 0.8, 
+  #               box.size = 0.05, box.type = "circle", box.prop = 0.3,
+  #               main = file_names[f])
   
   # create data tables for network visualization
   leg <- vars
@@ -117,18 +117,11 @@ for (f in 1:length(files)) {
   leg[,2] <- col_names[2:(ncol(d_n)+1)]
   colnames(leg) <- c("Target Feature Number","Target Feature Description","Best Lagged [1-qtr] Feature Number","Lagged Feature Description")
   for (i in 1:nrow(leg)) {
-    ind <- which(leg[i,3]==leg[,3])
+    ind <- which(leg[i,1]==leg[,3])
     leg[ind,4] <- leg[i,2]
   }
   
   # Export tables
   write.csv(leg,file = paste0(file_names[f],"_results.csv"))
-  
-  # Create table of features where best lagged deature is itself
-  ind <- which(leg[,1] == leg[,3])
-  leg_self <- leg[ind,]
-  
-  # Create table of features where best lagged deature is not itself
-  ind <- which(leg[,1] != leg[,3])
-  leg_nself <- leg[ind,]
 }
+
